@@ -1,0 +1,21 @@
+USE [IFF]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[view_obra_autoridade]
+AS
+SELECT     rs.ID_REGISTRO_SUBCAMPO AS ID_OBRA_AUTORIDADE, rt.IDFK_REGISTRO,
+                (SELECT     dbo.return_role(rs.ID_REGISTRO_SUBCAMPO) AS Expr1) AS papel_autoridade,
+                    (SELECT     IDFK_AUTORIDADE
+                     FROM biblioteca.REGISTRO_SUBCAMPO__AUTORIDADE AS rsa
+                     WHERE (ID_FK_REGISTRO_SUBCAMPO = rs.ID_REGISTRO_SUBCAMPO)) AS IDFK_AUTORIDADE
+FROM 	biblioteca.REGISTRO_TAG AS rt INNER JOIN
+        biblioteca.REGISTRO_TAG_DADO AS rtd ON rt.ID_REGISTRO_TAG = rtd.ID_FK_REGISTRO_TAG INNER JOIN
+        biblioteca.REGISTRO_SUBCAMPO AS rs ON rtd.ID_FK_REGISTRO_TAG = rs.IDFK_REGISTRO_TAG_DADO
+WHERE (rt.TAG = 100) OR (rt.TAG = 700) AND (rs.SUBCAMPO = 'a')
+GO
