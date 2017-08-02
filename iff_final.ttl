@@ -1,0 +1,285 @@
+@prefix map: <#> .
+@prefix db: <> .
+@prefix vocab: <vocab/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+@prefix d2r: <http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#> .
+
+# My defined schemas #
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <xmlns.com/foaf/0.1/> .
+
+<> a d2r:Server;
+	d2r:limitPerClassMap false;
+	d2r:limitPerPropertyBridge false;
+    .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	d2rq:jdbcDSN "jdbc:sqlserver://localhost:1433;databaseName=IFF";
+	d2rq:username "sa";
+	d2rq:password "mypass"; #dummy password
+	.
+
+
+# Table biblioteca.EDITORAS
+map:editoras a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "editoras/@@biblioteca.EDITORAS.CODIGO@@";
+	d2rq:class schema:Organization;
+	d2rq:classDefinitionLabel "Editora";
+	.
+map:editoras__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Editora #@@biblioteca.EDITORAS.CODIGO@@";
+	.
+map:editoras_DESCRICAO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:name;
+	d2rq:propertyDefinitionLabel "Editora DESCRICAO";
+	d2rq:column "biblioteca.EDITORAS.DESCRICAO";
+	.
+map:editoras_TELEFONE a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:telephone;
+	d2rq:propertyDefinitionLabel "Editora TELEFONE";
+	d2rq:column "biblioteca.EDITORAS.TELEFONE";
+	.
+map:editoras_FAX a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:faxNumber;
+	d2rq:propertyDefinitionLabel "Editora FAX";
+	d2rq:column "biblioteca.EDITORAS.FAX";
+	.
+map:editoras_CONTATO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property vocab:EDITORAS_CONTATO;
+	d2rq:propertyDefinitionLabel "Editora CONTATO";
+	d2rq:column "biblioteca.EDITORAS.CONTATO";
+	.
+map:editoras_ENDERECO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:address;
+	d2rq:propertyDefinitionLabel "Editora ENDERECO";
+	d2rq:column "biblioteca.EDITORAS.ENDERECO";
+	.
+map:editoras_OBSERVACOES a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property vocab:EDITORAS_OBSERVACOES;
+	d2rq:propertyDefinitionLabel "Editora OBSERVACOES";
+	d2rq:column "biblioteca.EDITORAS.OBSERVACOES";
+	.
+map:editoras_EMAIL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:email;
+	d2rq:propertyDefinitionLabel "Editora EMAIL";
+	d2rq:column "biblioteca.EDITORAS.EMAIL";
+	.
+map:editoras_CEP a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:postalCode;
+	d2rq:propertyDefinitionLabel "Editora CEP";
+	d2rq:column "biblioteca.EDITORAS.CEP";
+	.
+map:editoras_CNPJ a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:identifier;
+	d2rq:propertyDefinitionLabel "Editora CNPJ";
+	d2rq:column "biblioteca.EDITORAS.CNPJ";
+	.
+map:editoras_INSC_EST a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:identifier;
+	d2rq:propertyDefinitionLabel "Editora INSC_EST";
+	d2rq:column "biblioteca.EDITORAS.INSC_EST";
+	.
+map:editoras_SITE a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editoras;
+	d2rq:property schema:url;
+	d2rq:propertyDefinitionLabel "Editora SITE";
+	d2rq:column "biblioteca.EDITORAS.SITE";
+	.
+
+# Table biblioteca.MIDIAS
+map:midias a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "midias/@@biblioteca.MIDIAS.CODIGO@@";
+	d2rq:class skos:Concept;
+	d2rq:classDefinitionLabel "biblioteca.MIDIAS";
+	.
+map:midias__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:midias;
+	d2rq:property skos:preflabel;
+	d2rq:pattern "@@biblioteca.MIDIAS.DESCRICAO@@";
+	.
+map:midias_DESCRICAO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:midias;
+	d2rq:property schema:name;
+	d2rq:propertyDefinitionLabel "Midias DESCRICAO";
+	d2rq:column "biblioteca.MIDIAS.DESCRICAO";
+	.
+map:midias_SIGLA a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:midias;
+	d2rq:property vocab:MIDIAS_SIGLA;
+	d2rq:propertyDefinitionLabel "Midias SIGLA";
+	d2rq:column "biblioteca.MIDIAS.SIGLA";
+	.
+
+# Table dbo.view_assuntos
+map:assuntos a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "assuntos/@@dbo.view_assuntos.ID_ASSUNTO@@";
+	d2rq:class skos:Concept;
+	d2rq:classDefinitionLabel "assuntos";
+	.
+map:assuntos_ASSUNTO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:assuntos;
+	d2rq:property schema:name;
+	d2rq:propertyDefinitionLabel "assuntos ASSUNTO";
+	d2rq:column "dbo.view_assuntos.ASSUNTO";
+	.
+
+# Table dbo.view_autoridades
+map:autoridades a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "autoridades/@@dbo.view_autoridades.ID_AUTORIDADE@@";
+	d2rq:class foaf:Agent;
+	d2rq:classDefinitionLabel "autoridades";
+	.
+map:autoridades_TIPO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:autoridades;
+	d2rq:property vocab:autoridades_TIPO;
+	d2rq:propertyDefinitionLabel "autoridades TIPO";
+	d2rq:column "dbo.view_autoridades.TIPO";
+	d2rq:datatype xsd:integer;
+	.
+map:autoridades_NOME a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:autoridades;
+	d2rq:property schema:name;
+	d2rq:propertyDefinitionLabel "autoridades NOME";
+	d2rq:column "dbo.view_autoridades.NOME";
+	.
+
+# Table dbo.view_obra_autoridade
+map:obra_autoridade a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "obra_autoridade/@@dbo.view_obra_autoridade.ID_OBRA_AUTORIDADE@@";
+	d2rq:class schema:Role;
+	d2rq:classDefinitionLabel "obra_autoridade";
+	.
+map:obra_autoridade_papel_autoridade a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obra_autoridade;
+	d2rq:property schema:roleName;
+	d2rq:refersToClassMap map:papel_autoridades;
+	d2rq:propertyDefinitionLabel "obra_autoridade papel_autoridade";
+	d2rq:join "dbo.view_obra_autoridade.papel_autoridade => dbo.view_papel_autoridades.SLUG";
+	.
+map:obra_autoridade_AUTORIDADE a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obra_autoridade;
+	d2rq:property schema:contributor;
+	d2rq:refersToClassMap map:autoridades;
+	d2rq:propertyDefinitionLabel "obra_autoridade AUTORIDADE";
+	d2rq:join "dbo.view_obra_autoridade.IDFK_AUTORIDADE => dbo.view_autoridades.ID_AUTORIDADE";
+	.
+
+# Table dbo.view_papel_autoridades
+map:papel_autoridades a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "papel_autoridades/@@dbo.view_papel_autoridades.SLUG@@";
+	d2rq:class skos:Concept;
+	d2rq:classDefinitionLabel "papel_autoridades";
+	.
+map:papel_autoridades_SLUG a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:papel_autoridades;
+	d2rq:property skos:prefLabel;
+	d2rq:propertyDefinitionLabel "papel_autoridades SLUG";
+	d2rq:column "dbo.view_papel_autoridades.SLUG";
+	.
+map:papel_autoridades_LABEL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:papel_autoridades;
+	d2rq:property skos:name;
+	d2rq:propertyDefinitionLabel "papel_autoridades LABEL";
+	d2rq:column "dbo.view_papel_autoridades.LABEL";
+	.
+
+# Table dbo.view_registros
+map:obras a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "obras/@@dbo.view_registros.ID_REGISTRO@@";
+	d2rq:class schema:CreativeWork;
+	d2rq:classDefinitionLabel "obras";
+	.
+map:obras_ASSUNTO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:about;
+	d2rq:refersToClassMap map:assuntos;
+	d2rq:propertyDefinitionLabel "obra ASSUNTO";
+	d2rq:join "dbo.view_registros.ID_REGISTRO => dbo.view_assuntos.IDFK_REGISTRO";
+	.
+map:obras_EDITORA a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:publisher;
+	d2rq:propertyDefinitionLabel "obras EDITORA";
+	d2rq:refersToClassMap map:editoras;
+	d2rq:join "dbo.view_registros.IDFK_EDITORA => biblioteca.EDITORAS.CODIGO";
+	.
+map:obras_MIDIA a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:additionType;
+	d2rq:refersToClassMap map:midias;
+	d2rq:join "dbo.view_registros.IDFK_MIDIA => biblioteca.MIDIAS.CODIGO";
+	.
+map:obras_OBRA_AUTORIDADE a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:obras;
+    d2rq:property schema:contributor;
+    d2rq:refersToClassMap map:obra_autoridade;
+    d2rq:propertyDefinitionLabel "obras OBRA_AUTORIDADE";
+    d2rq:join "dbo.view_registros.ID_REGISTRO => dbo.view_obra_autoridade.IDFK_REGISTRO";
+    .
+map:obras_IDIOMA a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:inLanguage;
+	d2rq:propertyDefinitionLabel "obras IDIOMA";
+	d2rq:column "dbo.view_registros.IDIOMA";
+	.
+map:obras_ISBN a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:isbn;
+	d2rq:propertyDefinitionLabel "obras ISBN";
+	d2rq:column "dbo.view_registros.ISBN";
+	.
+map:obras_ISSN a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:issn;
+	d2rq:propertyDefinitionLabel "obras ISSN";
+	d2rq:column "dbo.view_registros.ISSN";
+	.
+map:obras_TITULO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:headline;
+	d2rq:propertyDefinitionLabel "obras TITULO";
+	d2rq:column "dbo.view_registros.TITULO";
+	.
+map:obras_SUBTITULO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:alternativeHeadline;
+	d2rq:propertyDefinitionLabel "obras SUBTITULO";
+	d2rq:column "dbo.view_registros.SUBTITULO";
+	.
+map:obras_EDICAO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:version;
+	d2rq:propertyDefinitionLabel "obras EDICAO";
+	d2rq:column "dbo.view_registros.EDICAO";
+	.
+map:obras_ANO a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:obras;
+	d2rq:property schema:dateCreated;
+	d2rq:propertyDefinitionLabel "obras ANO";
+	d2rq:column "dbo.view_registros.ANO";
+	.
